@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(awk:*)",
+      "Bash(grep:*)",
+      "Bash(tail:*)",
+      "Bash(make format:*)",
+      "Bash(make typecheck:*)",
+      "Bash(make update:*)"
+    ]
+  }
+}
