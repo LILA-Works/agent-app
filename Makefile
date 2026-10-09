@@ -1,4 +1,4 @@
-.PHONY: setup update upgrade format-check format typecheck
+.PHONY: setup update upgrade format-check format typecheck unit-test
 
 ########################################
 # Setup
@@ -34,3 +34,24 @@ format:
 # Run before commit. For making sure there are no type errors.
 typecheck:
 	uv run --no-sync basedpyright
+
+
+########################################
+# Test
+########################################
+
+# Run unit tests. Defaults to every package.
+#   make unit-test                                              # all packages
+#   make unit-test PACKAGE=lila-core                            # one package
+#   make unit-test FILE=packages/lila-core/tst/path/test_x.py   # one file (FILE wins over PACKAGE)
+# Exit code 5 (no tests collected) is not treated as a failure.
+unit-test:
+ifdef FILE
+	uv run --no-sync pytest $(FILE)
+else ifdef PACKAGE
+	cd packages/$(PACKAGE) && uv run --no-sync pytest
+else
+	@for p in packages/*/; do \
+		(cd $$p && uv run --no-sync pytest) || [ $$? -eq 5 ] || exit 1; \
+	done
+endif

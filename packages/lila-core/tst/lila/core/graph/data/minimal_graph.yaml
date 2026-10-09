@@ -1,0 +1,13 @@
+entry: a
+nodes:
+  - id: a
+    type: tool
+  - id: b
+    type: workflow
+edges:
+  - source: a
+    target: b
+input:
+  type: object
+output:
+  type: object

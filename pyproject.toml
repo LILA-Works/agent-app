@@ -7,6 +7,9 @@ dependencies = ["lila-core"]
 [tool.uv.workspace]
 members = ["packages/*"]
 
+[tool.uv.sources]
+lila-core = { workspace = true }
+
 [dependency-groups]
 dev = [
     "black",
@@ -34,5 +37,5 @@ known-first-party = []
 [tool.pyright]
 typeCheckingMode = "standard"
 pythonVersion = "3.13"
-include = ["src"]
+include = ["packages/lila-core/src"]
 exclude = ["**/__pycache__", "**/.venv"]
