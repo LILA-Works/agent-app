@@ -1,9 +1,10 @@
 from pathlib import Path
 
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
 from lila.core.graph.edge import Edge
 from lila.core.graph.node import Node
 from lila.core.types import JsonSchema, NodeId
-from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class Graph(BaseModel):
@@ -11,7 +12,7 @@ class Graph(BaseModel):
 
     # composition
     entry: NodeId = Field(
-        description="The starting node for this graph. " "Each graph has only one starting node."
+        description="The starting node for this graph. Each graph has only one starting node."
     )
     nodes: tuple[Node, ...] = Field(description="The list of nodes that are in this graph.")
     edges: tuple[Edge, ...] = Field(description="The list of edges that are in this graph.")

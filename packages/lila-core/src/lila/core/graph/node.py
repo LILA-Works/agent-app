@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from lila.core.types import NodeId
 from pydantic import BaseModel, ConfigDict, Field
+
+from lila.core.types import NodeId
 
 NodeType = Literal["tool", "workflow"]
 

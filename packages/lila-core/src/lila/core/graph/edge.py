@@ -1,5 +1,6 @@
-from lila.core.types import NodeId
 from pydantic import BaseModel, ConfigDict, Field
+
+from lila.core.types import NodeId
 
 
 class Edge(BaseModel):

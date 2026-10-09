@@ -1,9 +1,10 @@
 from pathlib import Path
 
 import yaml
+from pydantic import ValidationError
+
 from lila.core.graph.base import Graph
 from lila.core.graph.errors import ParseError
-from pydantic import ValidationError
 
 
 def from_yaml(yaml_path: Path | str) -> Graph:
