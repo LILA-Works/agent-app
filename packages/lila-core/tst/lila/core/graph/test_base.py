@@ -15,8 +15,9 @@ class TestGraph:
                 entry="a",
                 nodes=(ToolNode(id="a"), ToolNode(id="a")),
                 edges=(),
-                input=JsonSchema(type="object"),
-                output=JsonSchema(type="object"),
+                input_schema=JsonSchema(type="object"),
+                output_schema=JsonSchema(type="object"),
+                output={"result": "$.a.result"},
             )
 
         # verify
@@ -29,8 +30,9 @@ class TestGraph:
                 entry="missing",
                 nodes=(ToolNode(id="a"),),
                 edges=(),
-                input=JsonSchema(type="object"),
-                output=JsonSchema(type="object"),
+                input_schema=JsonSchema(type="object"),
+                output_schema=JsonSchema(type="object"),
+                output={"result": "$.a.result"},
             )
 
         # verify
@@ -51,8 +53,9 @@ class TestGraph:
                 entry="a",
                 nodes=(ToolNode(id="a"),),
                 edges=(edge,),
-                input=JsonSchema(type="object"),
-                output=JsonSchema(type="object"),
+                input_schema=JsonSchema(type="object"),
+                output_schema=JsonSchema(type="object"),
+                output={"result": "$.a.result"},
             )
 
         # verify

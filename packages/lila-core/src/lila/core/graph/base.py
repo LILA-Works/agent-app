@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from lila.core.graph.edge import Edge
 from lila.core.graph.node import Node
-from lila.core.types import JsonSchema, NodeId
+from lila.core.types import JsonSchema, LogPath, NodeId
 
 
 class Graph(BaseModel):
@@ -18,8 +18,9 @@ class Graph(BaseModel):
     edges: tuple[Edge, ...] = Field(description="The list of edges that are in this graph.")
 
     # boundaries
-    input: JsonSchema
-    output: JsonSchema
+    input_schema: JsonSchema
+    output_schema: JsonSchema
+    output: dict[str, LogPath]
 
     # metadata
     description: str = ""  #  what this graph does.
@@ -35,7 +36,7 @@ class Graph(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def check_entry_Exists(self) -> "Graph":
+    def check_entry_exists(self) -> "Graph":
         if self.entry not in {n.id for n in self.nodes}:
             raise ValueError(
                 f"entry {self.entry!r} is not a node ID that points " "to any nodes in this graph"

@@ -1,8 +1,11 @@
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, JsonValue
+from pydantic import BaseModel, ConfigDict, JsonValue, StringConstraints
 
 type NodeId = str
+type LogPath = Annotated[
+    str, StringConstraints(pattern=r"^\$(\.[A-Za-z_][A-Za-z0-9_-]*(\[\d+\])*)+$")
+]
 
 
 class JsonSchema(BaseModel):
