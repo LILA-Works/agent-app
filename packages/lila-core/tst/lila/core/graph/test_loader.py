@@ -5,9 +5,9 @@ import pytest
 from lila.core.graph.errors import ParseError
 from lila.core.graph.loader import from_yaml
 
-TST_DIR = Path(__file__).parent.parent.parent.parent
+CORE_DIR = Path(__file__).parent.parent.parent.parent.parent
 UNIT_TEST_DATA_DIR = Path(__file__).parent / "data"
-E2E_TEST_HOME_DIR = TST_DIR / "data" / "test_home"
+E2E_TEST_HOME_DIR = CORE_DIR / "test-data" / "test_home"
 
 
 # region: fixtures
