@@ -7,7 +7,8 @@
       "Bash(tail:*)",
       "Bash(make ci:*)",
       "Bash(make update:*)",
-      "Bash(make unit-test:*)"
+      "Bash(make unit-test:*)",
+      "Bash(make integ-test:*)"
     ]
   }
 }

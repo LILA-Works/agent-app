@@ -1,4 +1,4 @@
-.PHONY: setup update upgrade migrate-dev reset-dev revision ci format-check lint-check typecheck unit-test format lint fix
+.PHONY: setup update upgrade migrate-dev reset-dev revision ci format-check lint-check typecheck unit-test integ-test format lint fix
 
 # location of the sqlite db used for local development
 export DEV_DB_PATH ?= .dev/home/dev.db
@@ -64,13 +64,31 @@ else
 	done
 endif
 
+# Run integration tests. Defaults to every package.
+#   make integ-test                                                # all packages
+#   make integ-test PACKAGE=lila-core                              # one package
+#   make integ-test FILE=packages/lila-core/integ/test_x.py        # one file (FILE wins over PACKAGE)
+# Packages without an `integ` directory are skipped.
+integ-test:
+	@printf '\n'
+ifdef FILE
+	uv run --no-sync pytest $(FILE)
+else ifdef PACKAGE
+	cd packages/$(PACKAGE) && uv run --no-sync pytest integ
+else
+	@for p in packages/*/; do \
+		[ -d $$p/integ ] || continue; \
+		(cd $$p && uv run --no-sync pytest integ) || [ $$? -eq 5 ] || exit 1; \
+	done
+endif
+
 
 ########################################
 # CI
 ########################################
 
-# For running in CI: format check, lint check, typecheck and unit tests, without making changes.
-ci: format-check lint-check typecheck unit-test
+# For running in CI: format check, lint check, typecheck, unit and integration tests, without making changes.
+ci: format-check lint-check typecheck unit-test integ-test
 
 # For running in CI to block without making changes.
 format-check:
