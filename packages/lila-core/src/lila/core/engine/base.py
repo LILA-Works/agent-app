@@ -1,20 +1,13 @@
 from pydantic import JsonValue
 
-from lila.core.engine.types import ExecutionId, ExecutionPriority
+from lila.core.engine.store.sqlite import SqliteStore
+from lila.core.engine.types import ExecutionId
 from lila.core.graph.base import Graph
 
 
 class Engine:
-    def __init__(self):
-        pass
+    def __init__(self, store: SqliteStore):
+        self._store = store
 
-    # region: running a graph
-    def submit(
-        self, graph: Graph, input: JsonValue, priority: ExecutionPriority
-    ) -> ExecutionId: ...
-
-    # endregion: running a graph
-
-    def on_event(self, event: None) -> None: ...
-    def on_complete(self, task: None, result: None) -> None: ...
-    def on_cancel(self, execution_id: ExecutionId) -> None: ...
+    async def submit(self, inputs: JsonValue, graph: Graph) -> ExecutionId:
+        return await self._store.create_execution(inputs=inputs, graph=graph)

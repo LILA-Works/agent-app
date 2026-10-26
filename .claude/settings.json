@@ -5,9 +5,9 @@
       "Bash(awk:*)",
       "Bash(grep:*)",
       "Bash(tail:*)",
-      "Bash(make format:*)",
-      "Bash(make typecheck:*)",
-      "Bash(make update:*)"
+      "Bash(make ci:*)",
+      "Bash(make update:*)",
+      "Bash(make unit-test:*)"
     ]
   }
 }

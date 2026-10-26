@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey
+from pydantic import JsonValue
+from sqlalchemy import JSON, DateTime, ForeignKey
 from sqlalchemy import func as f
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -14,6 +15,7 @@ class ExecutionSchema(Base):
 
     id: Mapped[ExecutionId] = mapped_column(primary_key=True)
 
+    inputs: Mapped[JsonValue] = mapped_column(JSON)
     graph_hash: Mapped[str] = mapped_column(ForeignKey("graph_snapshots.hash"), index=True)
     graph: Mapped[GraphSnapshotSchema] = relationship()
 

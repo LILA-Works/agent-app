@@ -4,11 +4,10 @@
 
 ### Static Checks
 
-Use the following commands after making changes to make sure there aren't code style errors introduced in the changes.
+Use the following command after making changes to make sure there aren't style errors, bugs, or test failures introduced in the changes.
 
 ```bash
-make format  # formatting the code to match style guidelines
-make typecheck  # make sure there aren't type errors
+make ci
 ```
 
 ### Coding

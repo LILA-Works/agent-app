@@ -1,10 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, JsonValue
 
-from lila.core.engine.types import ExecutionId, ExecutionPriority
+from lila.core.engine.types import ExecutionId
 from lila.core.graph.base import Graph
 
 
 class Execution(BaseModel):
     id: ExecutionId
+    inputs: JsonValue
     graph: Graph
-    priority: ExecutionPriority

@@ -1,3 +1,4 @@
+import hashlib
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -25,6 +26,11 @@ class Graph(BaseModel):
     # metadata
     description: str = ""  #  what this graph does.
     source: Path | None = None
+
+    def hash(self) -> str:
+        """Stable content hash. Excludes `source`, which is where the graph was loaded from."""
+        canonical = self.model_dump_json(exclude={"source"})
+        return hashlib.sha256(canonical.encode()).hexdigest()
 
     # region: validation
     @model_validator(mode="after")

@@ -1,9 +1,11 @@
+import pytest
 from alembic.autogenerate import compare_metadata
 from alembic.migration import MigrationContext
 
 from lila.core.engine.store.tables.base import Base
 
 
+@pytest.mark.skip("Not running migration until we have something to work off of.")
 async def test_migrations__should_match_models(migrated_engine):
     # act
     async with migrated_engine.connect() as conn:

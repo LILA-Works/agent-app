@@ -1,5 +1,13 @@
+from uuid import uuid4
+
+from pydantic import JsonValue
 from sqlalchemy import URL, event
+from sqlalchemy.dialects.sqlite import insert
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
+
+from lila.core.engine.store.tables import ExecutionSchema, GraphSnapshotSchema
+from lila.core.engine.types import ExecutionId
+from lila.core.graph.base import Graph
 
 
 def create_engine(path: str) -> AsyncEngine:
@@ -16,3 +24,18 @@ def create_engine(path: str) -> AsyncEngine:
 class SqliteStore:
     def __init__(self, engine: AsyncEngine):
         self._session = async_sessionmaker(engine, expire_on_commit=False)
+
+    async def create_execution(self, inputs: JsonValue, graph: Graph) -> ExecutionId:
+        graph_hash = graph.hash()
+        execution_id = uuid4().hex
+
+        async with self._session.begin() as session:
+            # snapshots are content-addressed, so an existing hash is already correct.
+            await session.execute(
+                insert(GraphSnapshotSchema)
+                .values(hash=graph_hash, content=graph.model_dump(mode="json"))
+                .on_conflict_do_nothing(index_elements=["hash"])
+            )
+            session.add(ExecutionSchema(id=execution_id, graph_hash=graph_hash, inputs=inputs))
+
+        return execution_id
