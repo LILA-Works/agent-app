@@ -2,8 +2,13 @@ entry: a
 nodes:
   - id: a
     type: tool
+    tool: abc/etc
+    args:
+      foo: bar
   - id: b
     type: workflow
+    args:
+      foo: bar
 edges:
   - source: a
     target: b

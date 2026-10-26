@@ -1,0 +1,34 @@
+description: >-
+  A hello world example workflow that demonstrates high-level authoring features.
+
+input_schema:
+  type: object
+  properties:
+    some_number:
+      type: integer
+    some_string:
+      type: string
+    some_boolean:
+      type: boolean
+  required: [some_number, some_string]
+
+output_schema:
+  type: object
+  properties:
+    response:
+      type: string
+  required: [response]
+
+entry: check_time
+
+output:
+  time: $.check_time.display
+
+nodes:
+  - id: check_time
+    type: tool
+    tool: namespace/clock/now
+    args:
+      timezone: est
+
+edges:

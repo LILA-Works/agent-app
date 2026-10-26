@@ -15,7 +15,7 @@ class Graph(BaseModel):
         description="The starting node for this graph. Each graph has only one starting node."
     )
     nodes: tuple[Node, ...] = Field(description="The list of nodes that are in this graph.")
-    edges: tuple[Edge, ...] = Field(description="The list of edges that are in this graph.")
+    edges: tuple[Edge, ...] | None = Field(description="The list of edges that are in this graph.")
 
     # boundaries
     input_schema: JsonSchema
@@ -45,6 +45,9 @@ class Graph(BaseModel):
 
     @model_validator(mode="after")
     def check_edges_reference_nodes(self) -> "Graph":
+        if not self.edges:  # if only one node
+            return self
+
         ids = {n.id for n in self.nodes}
         bad = [
             (e.source, e.target) for e in self.edges if e.source not in ids or e.target not in ids

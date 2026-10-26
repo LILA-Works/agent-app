@@ -36,7 +36,7 @@ Q: In E-mail management, we want to dictate rules - X types of E-mails goes in A
 
 ## Extensibility
 
-**Toolkit** A set of extensions and additional capabilities that extend the core harness. Contains one or more of *tools*, *specs*, and *graphs*.
+**Toolkit** A set of extensions and additional capabilities that extend the core harness. Contains one or more of *tools*, *specs*, and *workflows*.
 
 **Tool** A piece of functionality written in code that the harness can delegate to. The tool is authored as a part of toolkit.
 - A tool declares its effect (read-only, reversible, destructive).

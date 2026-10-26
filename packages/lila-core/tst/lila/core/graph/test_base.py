@@ -14,7 +14,10 @@ class TestGraph:
         with pytest.raises(ValidationError) as exc_info:
             Graph(
                 entry="a",
-                nodes=(ToolNode(id="a"), ToolNode(id="a")),
+                nodes=(
+                    ToolNode(id="a", tool="abc/etc", args={}),
+                    ToolNode(id="a", tool="abc/etc", args={}),
+                ),
                 edges=(),
                 input_schema=JsonSchema(type="object"),
                 output_schema=JsonSchema(type="object"),
@@ -29,7 +32,7 @@ class TestGraph:
         with pytest.raises(ValidationError) as exc_info:
             Graph(
                 entry="missing",
-                nodes=(ToolNode(id="a"),),
+                nodes=(ToolNode(id="a", tool="abc/etc", args={}),),
                 edges=(),
                 input_schema=JsonSchema(type="object"),
                 output_schema=JsonSchema(type="object"),
@@ -52,7 +55,7 @@ class TestGraph:
         with pytest.raises(ValidationError) as exc_info:
             Graph(
                 entry="a",
-                nodes=(ToolNode(id="a"),),
+                nodes=(ToolNode(id="a", tool="abc/etc", args={}),),
                 edges=(edge,),
                 input_schema=JsonSchema(type="object"),
                 output_schema=JsonSchema(type="object"),

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -18,6 +19,7 @@ class _NodeBase(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     id: NodeId = Field(description="A ID for the node unique to the graph this node belongs to.")
+    args: Mapping[str, str] = Field(description="Input values to the tool call.")
 
     @field_validator("id")
     @classmethod
@@ -29,6 +31,8 @@ class _NodeBase(BaseModel):
 
 class ToolNode(_NodeBase):
     type: Literal["tool"] = "tool"
+    # TODO: add validation once we have a clearer idea of what we want here
+    tool: str = Field(description="Name of the tool.")
 
 
 class WorkflowNode(_NodeBase):

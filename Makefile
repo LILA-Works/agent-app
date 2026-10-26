@@ -1,4 +1,4 @@
-.PHONY: setup update upgrade migrate-dev reset-dev revision ci format-check format typecheck unit-test
+.PHONY: setup update upgrade migrate-dev reset-dev revision ci format-check lint-check typecheck unit-test format lint fix
 
 # location of the sqlite db used for local development
 export DEV_DB_PATH ?= .dev/home/dev.db
@@ -69,13 +69,17 @@ endif
 # CI
 ########################################
 
-# For running in CI: format check, typecheck and unit tests, without making changes.
-ci: format-check typecheck unit-test
+# For running in CI: format check, lint check, typecheck and unit tests, without making changes.
+ci: format-check lint-check typecheck unit-test
 
 # For running in CI to block without making changes.
 format-check:
 	@printf '\n==================== 🔍 format-check ====================\n'
 	uv run black --check .
+
+# For running in CI to block without making changes.
+lint-check:
+	@printf '\n==================== 🔍 lint-check ====================\n'
 	uv run ruff check .
 
 # Run before commit. For making sure there are no type errors.
@@ -88,4 +92,11 @@ typecheck:
 format:
 	@printf '\n==================== ✨ format ====================\n'
 	uv run black .
+
+# Run before commit. For fixing lint issues.
+lint:
+	@printf '\n==================== 🧹 lint ====================\n'
 	uv run ruff check --fix .
+
+# Run before commit. Formats and lints.
+fix: format lint
