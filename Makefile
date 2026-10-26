@@ -1,4 +1,4 @@
-.PHONY: setup update upgrade ci format-check format typecheck unit-test
+.PHONY: setup update upgrade migrate-dev reset-dev revision ci format-check format typecheck unit-test
 
 # location of the sqlite db used for local development
 export DEV_DB_PATH ?= .dev/home/dev.db
@@ -30,10 +30,18 @@ ALEMBIC_CMD = uv run --no-sync alembic -c packages/lila-core/alembic.ini
 migrate-dev:
 	$(ALEMBIC_CMD) upgrade head
 
+# Removes and recreates the dev database
 reset-dev:
 	rm -f $(DEV_DB_PATH)
 	$(MAKE) migrate-dev
 
+# Creates a revision from the latest models.
+#		make revision MSG="descriptive message"
+revision:
+ifndef MSG
+	$(error MSG is required, e.g. make revision MSG="descriptive message")
+endif
+	$(ALEMBIC_CMD) revision --autogenerate -m "$(MSG)"
 
 ########################################
 # Test
