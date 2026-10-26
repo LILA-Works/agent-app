@@ -4,7 +4,7 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from lila.core.types import NodeId
+from lila.core.graph.types import NodeId
 
 NodeType = Literal["tool", "workflow"]
 RESERVED_IDS = frozenset(

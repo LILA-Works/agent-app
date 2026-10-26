@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pytest
+
 from lila.core.graph.errors import ParseError
 from lila.core.graph.loader import from_yaml
 

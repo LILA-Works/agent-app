@@ -1,4 +1,4 @@
-from lila.core.types import NodeId
+from lila.core.graph.types import NodeId
 
 
 class ParseError(ValueError):

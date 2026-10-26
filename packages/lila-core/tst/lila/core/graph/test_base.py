@@ -1,9 +1,10 @@
 import pytest
+from pydantic import ValidationError
+
 from lila.core.graph.base import Graph
 from lila.core.graph.edge import Edge
 from lila.core.graph.node import ToolNode
-from lila.core.types import JsonSchema
-from pydantic import ValidationError
+from lila.core.graph.types import JsonSchema
 
 
 # region: test cases

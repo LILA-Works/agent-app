@@ -14,6 +14,8 @@
     "charliermarsh.ruff",
     // The experiment harness runs through make targets and a Docker image.
     "ms-vscode.makefile-tools",
-    "ms-azuretools.vscode-containers"
+    "ms-azuretools.vscode-containers",
+    // help with the .toml files
+    "tamasfe.even-better-toml"
   ]
 }

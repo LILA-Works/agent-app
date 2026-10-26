@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from lila.core.graph.edge import Edge
 from lila.core.graph.node import Node
-from lila.core.types import JsonSchema, LogPath, NodeId
+from lila.core.graph.types import JsonSchema, LogPath, NodeId
 
 
 class Graph(BaseModel):

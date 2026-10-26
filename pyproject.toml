@@ -11,11 +11,7 @@ members = ["packages/*"]
 lila-core = { workspace = true }
 
 [dependency-groups]
-dev = [
-    "black",
-    "ruff",
-    "basedpyright",
-]
+dev = ["black", "ruff", "basedpyright"]
 
 
 [tool.black]
@@ -29,7 +25,6 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
 
-
 [tool.ruff.lint.isort]
 known-first-party = []
 
@@ -38,4 +33,4 @@ known-first-party = []
 typeCheckingMode = "standard"
 pythonVersion = "3.13"
 include = ["packages/lila-core/src"]
-exclude = ["**/__pycache__", "**/.venv"]
+exclude = ["**/__pycache__", "**/.venv", "**/.pytest_cache", "**/.ruff_cache"]

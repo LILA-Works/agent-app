@@ -1,5 +1,8 @@
 .PHONY: setup update upgrade ci format-check format typecheck unit-test
 
+# location of the sqlite db used for local development
+export DEV_DB_PATH ?= .dev/home/dev.db
+
 ########################################
 # Setup
 ########################################
@@ -18,28 +21,18 @@ upgrade:
 
 
 ########################################
-# CI
+# Dev
 ########################################
+export DEV_DB_URL ?= sqlite+aiosqlite:///$(CURDIR)/$(DEV_DB_PATH)
+ALEMBIC_CMD = uv run --no-sync alembic -c packages/lila-core/alembic.ini
 
-# For running in CI: format check, typecheck and unit tests, without making changes.
-ci: format-check typecheck unit-test
+# Apply all migrations to the dev database.
+migrate-dev:
+	$(ALEMBIC_CMD) upgrade head
 
-# For running in CI to block without making changes.
-format-check:
-	@printf '\n==================== 🔍 format-check ====================\n'
-	uv run black --check .
-	uv run ruff check --select I .
-
-# Run before commit. For formatting the code according to style guidelines.
-format:
-	@printf '\n==================== ✨ format ====================\n'
-	uv run black .
-	uv run ruff check --select I --fix .
-
-# Run before commit. For making sure there are no type errors.
-typecheck:
-	@printf '\n==================== 🧐 typecheck ====================\n'
-	uv run --no-sync basedpyright
+reset-dev:
+	rm -f $(DEV_DB_PATH)
+	$(MAKE) migrate-dev
 
 
 ########################################
@@ -62,3 +55,29 @@ else
 		(cd $$p && uv run --no-sync pytest) || [ $$? -eq 5 ] || exit 1; \
 	done
 endif
+
+
+########################################
+# CI
+########################################
+
+# For running in CI: format check, typecheck and unit tests, without making changes.
+ci: format-check typecheck unit-test
+
+# For running in CI to block without making changes.
+format-check:
+	@printf '\n==================== 🔍 format-check ====================\n'
+	uv run black --check .
+	uv run ruff check .
+
+# Run before commit. For making sure there are no type errors.
+typecheck:
+	@printf '\n==================== 🧐 typecheck ====================\n'
+	uv run --no-sync basedpyright
+
+
+# Run before commit. For formatting the code according to style guidelines.
+format:
+	@printf '\n==================== ✨ format ====================\n'
+	uv run black .
+	uv run ruff check --fix .
